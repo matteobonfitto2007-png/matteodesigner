@@ -2771,6 +2771,72 @@
   .work-feature .work-cover.vs-cover { aspect-ratio: 1100 / 652; align-self: center; }
   .vs-cover img { object-position: center; }
 
+  /* ══ LAVORI ED ESPERIENZE — anteprime con informazioni sotto ═════════ */
+  .proj-group { margin-top: clamp(28px, 4vw, 48px); }
+  .proj-group + .proj-group { margin-top: clamp(48px, 6vw, 80px); }
+  .proj-group-title { display: flex; align-items: center; gap: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.15rem, 2vw, 1.5rem); margin-bottom: clamp(16px, 2vw, 24px); }
+  .proj-group-title i { font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; color: var(--purple-soft); padding: 4px 10px; border-radius: var(--r-pill); background: rgba(100,32,255,0.12); border: 1px solid rgba(155,123,255,0.25); }
+  .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 1.8vw, 22px); }
+  .proj-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .proj-card { display: flex; flex-direction: column; }
+  .proj-card .work-cover { aspect-ratio: 4 / 3; flex-shrink: 0; }
+  .proj-card .work-cover > img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .proj-card[data-open=vs] .work-cover > img, .proj-card[data-open=gv] .work-cover > img { object-position: center; }
+  .proj-card .book-cover-wrap { position: absolute; inset: 0; }
+  .proj-card .book-cover-wrap .book-mock { height: 84% !important; }
+  .proj-info { display: flex; flex-direction: column; flex: 1; padding: 18px 10px 10px; }
+  .proj-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .proj-top .work-cat { margin: 0; }
+  .proj-info .work-title { font-size: clamp(1.05rem, 1.5vw, 1.2rem); margin-bottom: 10px; }
+  .proj-info .work-desc { font-size: 0.9rem; line-height: 1.65; flex: 1; max-width: none; }
+  .proj-info .view-btn { align-self: flex-start; margin-top: 18px; min-height: 42px; padding: 0 20px !important; font-size: 0.82rem !important; }
+  @media (max-width: 1000px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .proj-grid, .proj-grid-2 { grid-template-columns: 1fr; } }
+
+  /* ══ NAV — logo più piccolo su telefono, bottone lingua sempre intero ══ */
+  @media (max-width: 700px) {
+    nav { gap: 8px; }
+    .nav-logo { flex: 1 1 auto; min-width: 0; font-size: clamp(0.7rem, 3.4vw, 0.9rem) !important; letter-spacing: 0 !important; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+    .nav-right { flex-shrink: 0; gap: 6px; }
+    .mob-menu-cta, .nav-lang-btn { padding: 0 12px !important; }
+  }
+  @media (max-width: 360px) { .mob-menu-label { display: none; } }
+
+  /* ══ RICETTARIO — frecce discrete sotto il libro ═════════════════════ */
+  #bookModal .board-nav.book-prev, #bookModal .board-nav.book-next {
+    bottom: auto !important; translate: none !important; transform: none !important;
+    width: 38px; height: 38px; font-size: 0.95rem;
+    background: transparent; border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.6); backdrop-filter: none;
+  }
+  #bookModal .book-prev { left: calc(50% - 46px) !important; right: auto !important; }
+  #bookModal .book-next { right: calc(50% - 46px) !important; left: auto !important; }
+  #bookModal .board-nav:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: #fff; box-shadow: none !important; }
+  .book-stage { padding-bottom: 70px; }
+  @media (max-width: 700px) { .book-stage { padding-bottom: 120px; } }
+  @media (max-height: 500px) and (orientation: landscape) { .book-stage { padding-bottom: 58px; } }
+
+  /* ══ TICKER — effetto LED ════════════════════════════════════════════ */
+  .ticker {
+    background: linear-gradient(90deg, #4a12d8, #7b3dff 50%, #4a12d8);
+    border-top: 1px solid rgba(225,210,255,0.95); border-bottom: 1px solid rgba(225,210,255,0.95);
+    box-shadow: 0 0 10px rgba(170,130,255,0.95), 0 0 34px rgba(124,72,255,0.85), 0 0 80px rgba(100,32,255,0.6), 0 0 140px rgba(100,32,255,0.35), inset 0 0 22px rgba(255,255,255,0.22) !important;
+    animation: tickerGlow 3.2s ease-in-out infinite;
+  }
+  @keyframes tickerGlow {
+    0%,100% { box-shadow: 0 0 10px rgba(170,130,255,0.9), 0 0 30px rgba(124,72,255,0.8), 0 0 70px rgba(100,32,255,0.55), 0 0 120px rgba(100,32,255,0.3), inset 0 0 18px rgba(255,255,255,0.18); }
+    50%     { box-shadow: 0 0 14px rgba(200,170,255,1), 0 0 44px rgba(140,90,255,0.95), 0 0 100px rgba(100,32,255,0.7), 0 0 170px rgba(100,32,255,0.45), inset 0 0 26px rgba(255,255,255,0.3); }
+  }
+  .ticker-item { color: #fff; text-shadow: 0 0 4px #fff, 0 0 10px rgba(255,255,255,0.85), 0 0 22px rgba(200,170,255,0.95), 0 0 40px rgba(140,90,255,0.8); }
+  .ticker-dot { background: #fff !important; box-shadow: 0 0 6px #fff, 0 0 14px rgba(200,170,255,1), 0 0 24px rgba(124,72,255,0.9); }
+  @media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+
+  .proj-top .work-year:empty { display: none; }
+  @media (max-height: 500px) and (orientation: landscape) {
+    .book { width: min(100%, calc((100vh - 120px) * 1.4144)) !important; }
+    .book-stage { padding: 0 60px 52px !important; align-items: flex-start; padding-top: 4px !important; }
+  }
+  @media (max-width: 480px) { #bookModal .board-title { display: none; } }
+
 </style>
 </head>
 <body class="gated">
@@ -2800,7 +2866,6 @@
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#servizi" onclick="closeMobileMenu()">Servizi</a>
-  <a href="#esperienze" onclick="closeMobileMenu()">Esperienze</a>
   <a href="#skills" onclick="closeMobileMenu()">Skills</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
   <div class="mobile-menu-contacts">
@@ -2818,7 +2883,6 @@
     <li><a href="#lavori" data-i18n="nav_lavori">Lavori</a></li>
     <li><a href="#fotografia" data-i18n="nav_foto">Foto &amp; video</a></li>
     <li><a href="#servizi" data-i18n="nav_servizi">Competenze</a></li>
-    <li><a href="#esperienze" data-i18n="nav_esperienze">Esperienze</a></li>
     <li><a href="#skills" data-i18n="nav_skills">Strumenti</a></li>
     <li><a href="#about" data-i18n="nav_about">About</a></li>
   </ul>
@@ -2839,7 +2903,6 @@
   <a href="#lavori"     onclick="closeMobFab()"><span data-i18n="nav_lavori">Lavori</span></a>
   <a href="#fotografia" onclick="closeMobFab()"><span data-i18n="nav_foto">Foto &amp; video</span></a>
   <a href="#servizi"    onclick="closeMobFab()"><span data-i18n="nav_servizi">Competenze</span></a>
-  <a href="#esperienze" onclick="closeMobFab()"><span data-i18n="nav_esperienze">Esperienze</span></a>
   <a href="#skills"     onclick="closeMobFab()"><span data-i18n="nav_skills">Strumenti</span></a>
   <a href="#about"      onclick="closeMobFab()"><span data-i18n="nav_about">About</span></a>
 </div>
@@ -2877,71 +2940,104 @@
   </div>
 </div>
 
-<!-- LAVORI -->
+<!-- LAVORI ED ESPERIENZE -->
 <section class="works" id="lavori">
   <div class="works-head">
     <div>
       <span class="section-label reveal" data-i18n="works_label">Portfolio</span>
-      <h2 class="section-title reveal" data-i18n="works_title">Lavori selezionati.</h2>
+      <h2 class="section-title reveal" data-i18n="works_title">Lavori ed esperienze.</h2>
     </div>
-    <p class="works-sub reveal" data-i18n="works_sub">Una selezione di progetti reali: loghi, campagne, manifesti e impaginazione. Clicca su un progetto per vederlo da vicino.</p>
+    <p class="works-sub reveal" data-i18n="works_sub">Progetti reali per enti, aziende e clienti, e i lavori nati durante gli studi. Clicca su un progetto per vederlo da vicino.</p>
   </div>
-  <div class="works-grid">
-    <article class="work-card work-feature reveal" role="button" tabindex="0" data-open="board" aria-label="FoggiApp">
-      <div class="work-cover"><img data-cover="board" alt="FoggiApp, tavola di presentazione" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <span class="work-cat" data-i18n="work5_cat">Brand Identity · Web app</span>
-        <h3 class="work-title">FoggiApp</h3>
-        <p class="work-desc" data-i18n="work5_desc">Identità visiva per un'app turistica dedicata a Foggia: dal concept al logo ispirato alla cupola liberty di Piazza Cavour, fino a palette, tipografia, merchandising, app e affissioni.</p>
-        <span class="view-btn" data-i18n="work5_btn">Sfoglia le tavole</span>
-      </div>
-    </article>
-    <article class="work-card work-feature work-feature-rev reveal" role="button" tabindex="0" data-open="book" aria-label="Le Ricette di Paola">
-      <div class="work-cover book-cover-wrap"><img class="book-mock" src="media/ricettario/00.jpg" alt="Le Ricette di Paola, copertina" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <span class="work-cat" data-i18n="work6_cat">Editoriale · Ricettario</span>
-        <h3 class="work-title">Le Ricette di Paola</h3>
-        <p class="work-desc" data-i18n="work6_desc">Un ricettario di cucina romana tradizionale: copertina, impaginazione e grafica di sette ricette, dalla carbonara ai supplì. Ogni doppia pagina abbina una foto a tutta altezza a ingredienti e passaggi numerati.</p>
-        <span class="view-btn" data-i18n="work6_btn">Sfoglia il libro</span>
-      </div>
-    </article>
-    <article class="work-card reveal" role="button" tabindex="0" data-open="cap" aria-label="CapitaNatale 2025">
-      <div class="work-cover"><img data-cover="cap" alt="CapitaNatale 2025, brand identity" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <div><span class="work-cat" data-i18n="work1_cat">Brand Identity · Logo</span><h3 class="work-title" data-i18n="work1_title">CapitaNatale 2025</h3></div>
-        <span class="work-year">2025</span>
-      </div>
-    </article>
-    <article class="work-card reveal" role="button" tabindex="0" data-open="modal2" aria-label="Manifesto Giorno della Memoria">
-      <div class="work-cover"><img data-cover="modal2" alt="Manifesto Giorno della Memoria" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <div><span class="work-cat" data-i18n="work2_cat">Manifesto</span><h3 class="work-title" data-i18n="work2_title">Giorno della Memoria — Fondazione Monti Uniti</h3></div>
-        <span class="work-year">2026</span>
-      </div>
-    </article>
-    <article class="work-card reveal" role="button" tabindex="0" data-open="modal3" aria-label="Logo per i 2500 anni di Napoli">
-      <div class="work-cover"><img data-cover="modal3" alt="Logo per i 2500 anni di Napoli" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <div><span class="work-cat" data-i18n="work3_cat">Logo · Concorso</span><h3 class="work-title" data-i18n="work3_title">Napoli 2500 — 73° su 300</h3></div>
-        <span class="work-year">2023</span>
-      </div>
-    </article>
-    <article class="work-card reveal" role="button" tabindex="0" data-open="gallery" aria-label="Album fotografici">
-      <div class="work-cover"><img data-cover="gallery" alt="Album fotografici" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <div><span class="work-cat" data-i18n="work4_cat">Editoriale · Fotolibri</span><h3 class="work-title" data-i18n="work4_title">Album fotografici per @perfectphoto</h3></div>
-        <span class="work-year">2025 – ora</span>
-      </div>
-    </article>
-    <article class="work-card work-feature reveal" role="button" tabindex="0" data-open="vs" aria-label="Studio Dentistico">
-      <div class="work-cover vs-cover"><img src="media/dentistico/cover.jpg" alt="Studio Dentistico, logo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-      <div class="work-meta">
-        <span class="work-cat" data-i18n="work7_cat">Brand Identity · Studio medico</span>
-        <h3 class="work-title">Studio Dentistico</h3>
-        <p class="work-desc" data-i18n="work7_desc">Identità visiva per uno studio dentistico: logo con il dente e le stelline del sorriso, palette verde acqua, tipografia, icone, pattern, poster, biglietti da visita e promemoria appuntamenti. Fino alla targa realizzata all'ingresso dello studio.</p>
-        <span class="view-btn" data-i18n="work7_btn">Scorri la tavola</span>
-      </div>
-    </article>
+
+  <div class="proj-group" id="esperienze">
+    <h3 class="proj-group-title reveal"><span data-i18n="grp_tir">Tirocini / inserimenti lavorativi</span><i>3</i></h3>
+    <div class="proj-grid">
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="modal2" aria-label="Fondazione Monti Uniti Foggia">
+        <div class="work-cover"><img data-cover="modal2" alt="Fondazione Monti Uniti Foggia" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work2_cat">Manifesto</span><span class="work-year">2026</span></div>
+          <h3 class="work-title">Fondazione Monti Uniti Foggia</h3>
+          <p class="work-desc" data-i18n="exp1_desc">Realizzazione di un manifesto per la mostra durante il Giorno della Memoria. Un lavoro che unisce rigore visivo e rispetto della storia.</p>
+          <span class="view-btn" data-i18n="exp1_btn">Guarda il manifesto</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="cap" aria-label="CapitaNatale 2025">
+        <div class="work-cover"><img data-cover="cap" alt="CapitaNatale 2025" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work1_cat">Brand Identity · Logo</span><span class="work-year">2025 – 2026</span></div>
+          <h3 class="work-title" data-i18n="work1_title">CapitaNatale 2025</h3>
+          <p class="work-desc" data-i18n="exp3_desc">Brand identity per CapitaNatale 2025, l'evento natalizio della Provincia di Foggia ispirato al Cantico delle Creature: logo, palette e font, manifesto sull'inquinamento del mare, banner in città e merchandising.</p>
+          <span class="view-btn" data-i18n="exp3_btn">Guarda la brand identity</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="modal3" aria-label="Napoli 2500 — 73° su 300">
+        <div class="work-cover"><img data-cover="modal3" alt="Napoli 2500 — 73° su 300" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work3_cat">Logo · Concorso</span><span class="work-year">2023</span></div>
+          <h3 class="work-title" data-i18n="work3_title">Napoli 2500 — 73° su 300</h3>
+          <p class="work-desc" data-i18n="exp4_desc">Partecipante al concorso grafico di progettazione del logo per celebrare i 2500 anni della città di Napoli.</p>
+          <span class="view-btn" data-i18n="exp4_btn">Guarda il progetto</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="proj-group">
+    <h3 class="proj-group-title reveal"><span data-i18n="grp_work">Esperienze lavorative</span><i>3</i></h3>
+    <div class="proj-grid">
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gv" aria-label="Festival GarganoVivo">
+        <div class="work-cover"><img data-cover="gv" alt="Festival GarganoVivo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="gv_cat">Fotografia · Video</span><span class="work-year" data-i18n="exp5_year">Ott 2026</span></div>
+          <h3 class="work-title" data-i18n="gv_title">Festival GarganoVivo</h3>
+          <p class="work-desc" data-i18n="exp5_desc">Servizio fotografico e video per GarganoVivo – Radici in cammino, il festival del Parco Nazionale del Gargano: incontri, spettacoli, escursioni, degustazioni e serate nei borghi di San Nicandro, Apricena, Serracapriola e Rignano Garganico.</p>
+          <span class="view-btn" data-i18n="gv_btn">Guarda foto e reel</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="vs" aria-label="Studio Dentistico">
+        <div class="work-cover"><img src="media/dentistico/cover.jpg" alt="Studio Dentistico, logo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work7_cat">Brand Identity · Studio medico</span><span class="work-year"></span></div>
+          <h3 class="work-title">Studio Dentistico</h3>
+          <p class="work-desc" data-i18n="work7_desc">Identità visiva per uno studio dentistico: logo con il dente e le stelline del sorriso, palette verde acqua, tipografia, icone, pattern, poster, biglietti da visita e promemoria appuntamenti. Fino alla targa realizzata all'ingresso dello studio.</p>
+          <span class="view-btn" data-i18n="work7_btn">Scorri la tavola</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gallery" aria-label="Album fotografici per @perfectphoto">
+        <div class="work-cover"><img data-cover="gallery" alt="Album fotografici per @perfectphoto" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work4_cat">Editoriale · Fotolibri</span><span class="work-year">2025 – ora</span></div>
+          <h3 class="work-title" data-i18n="work4_title">Album fotografici per @perfectphoto</h3>
+          <p class="work-desc" data-i18n="exp2_desc">Gestione e creazione di pagine di fotolibri per il fotografo @perfectphoto.</p>
+          <span class="view-btn" data-i18n="exp2_btn">Guarda gli album</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="proj-group">
+    <h3 class="proj-group-title reveal"><span data-i18n="grp_study">Progetti di studio</span><i>2</i></h3>
+    <div class="proj-grid proj-grid-2">
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="board" aria-label="FoggiApp">
+        <div class="work-cover"><img data-cover="board" alt="FoggiApp" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work5_cat">Brand Identity · Web app</span><span class="work-year"></span></div>
+          <h3 class="work-title">FoggiApp</h3>
+          <p class="work-desc" data-i18n="work5_desc">Identità visiva per un'app turistica dedicata a Foggia: dal concept al logo ispirato alla cupola liberty di Piazza Cavour, fino a palette, tipografia, merchandising, app e affissioni.</p>
+          <span class="view-btn" data-i18n="work5_btn">Sfoglia le tavole</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="book" aria-label="Le Ricette di Paola">
+        <div class="work-cover"><div class="book-cover-wrap"><img class="book-mock" src="media/ricettario/00.jpg" alt="Le Ricette di Paola, copertina" loading="lazy"></div><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work6_cat">Editoriale · Ricettario</span><span class="work-year"></span></div>
+          <h3 class="work-title">Le Ricette di Paola</h3>
+          <p class="work-desc" data-i18n="work6_desc">Un ricettario di cucina romana tradizionale: copertina, impaginazione e grafica di sette ricette, dalla carbonara ai supplì. Ogni doppia pagina abbina una foto a tutta altezza a ingredienti e passaggi numerati.</p>
+          <span class="view-btn" data-i18n="work6_btn">Sfoglia il libro</span>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -3162,58 +3258,6 @@
   </div>
 </section>
 
-<!-- EXPERIENCES -->
-<section id="esperienze" style="background: var(--black);">
-  <span class="section-label reveal" data-i18n="exp_label">Percorso</span>
-  <h2 class="section-title reveal" data-i18n="exp_title">Tirocini / inserimenti lavorativi.</h2>
-  <div class="exp-list">
-    <div class="exp-item reveal" data-lb="memoria">
-      <div class="exp-year">2026</div>
-      <div>
-        <div class="exp-title">Fondazione Monti Uniti Foggia</div>
-        <p class="exp-desc" data-i18n="exp1_desc">Realizzazione di un manifesto per la mostra durante il Giorno della Memoria. Un lavoro che unisce rigore visivo e rispetto della storia.</p>
-          <button class="view-btn" onclick="openModal('modal2')" data-i18n="exp1_btn">Guarda il manifesto</button>
-      </div>
-    </div>
-    <div class="exp-item reveal" data-lb="capitanatale">
-      <div class="exp-year">2025 – 2026</div>
-      <div>
-        <div class="exp-title" data-i18n="exp3_title">Brand identity CapitaNatale 2025</div>
-        <p class="exp-desc" data-i18n="exp3_desc">Brand identity per CapitaNatale 2025, l'evento natalizio della Provincia di Foggia ispirato al Cantico delle Creature: logo, palette e font, manifesto sull'inquinamento del mare, banner in città e merchandising.</p>
-          <button class="view-btn" onclick="openBoard('capitanatale')" data-i18n="exp3_btn">Guarda la brand identity</button>
-      </div>
-    </div>
-    <div class="exp-item reveal" data-lb="napoli">
-      <div class="exp-year">2023</div>
-      <div>
-        <div class="exp-title" data-i18n="exp4_title">73° posto su 300 — Concorso di idee Comune di Napoli</div>
-        <p class="exp-desc" data-i18n="exp4_desc">Partecipante al concorso grafico di progettazione del logo per celebrare i 2500 anni della città di Napoli.</p>
-          <button class="view-btn" onclick="openModal('modal3')" data-i18n="exp4_btn">Guarda il progetto</button>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="section-title reveal" style="margin-top:80px;" data-i18n="work_title">Esperienze lavorative.</h2>
-  <div class="exp-list">
-    <div class="exp-item reveal">
-      <div class="exp-year" data-i18n="exp5_year">Ott 2026</div>
-      <div>
-        <div class="exp-title" data-i18n="exp5_title">Fotografo e videomaker — Festival GarganoVivo</div>
-        <p class="exp-desc" data-i18n="exp5_desc">Servizio fotografico e video per GarganoVivo – Radici in cammino, il festival del Parco Nazionale del Gargano: incontri, spettacoli, escursioni, degustazioni e serate nei borghi di San Nicandro, Apricena, Serracapriola e Rignano Garganico.</p>
-          <div class="exp-media" data-media="garganovivo" data-reels="1"></div>
-      </div>
-    </div>
-    <div class="exp-item reveal">
-      <div class="exp-year">2025 – ora</div>
-      <div>
-        <div class="exp-title" data-i18n="exp2_title">Progettista di album fotografici</div>
-        <p class="exp-desc" data-i18n="exp2_desc">Gestione e creazione di pagine di fotolibri per il fotografo @perfectphoto.</p>
-          <div class="exp-media" data-media="album"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- SKILLS → STRUMENTI -->
 <section id="skills" style="background: var(--grey);">
   <span class="section-label reveal" data-i18n="tools_label">Strumenti</span>
@@ -3388,8 +3432,12 @@ const TRANSLATIONS = {
     reel4_title: "Rignano Garganico",
     reel4_desc: "La giornata tra gli uliveti e la masseria: il cammino con il gregge, la stalla, la mungitura e la lavorazione del caciocavallo al fuoco del camino.",
     works_label: "Portfolio",
-    works_title: "Lavori selezionati.",
-    works_sub: "Una selezione di progetti reali: loghi, campagne, manifesti e impaginazione. Clicca su un progetto per vederlo da vicino.",
+    works_title: "Lavori ed esperienze.",
+    grp_tir: "Tirocini / inserimenti lavorativi",
+    grp_work: "Esperienze lavorative",
+    grp_study: "Progetti di studio",
+    gv_cat: "Fotografia · Video", gv_title: "Festival GarganoVivo", gv_btn: "Guarda foto e reel",
+    works_sub: "Progetti reali per enti, aziende e clienti, e i lavori nati durante gli studi. Clicca su un progetto per vederlo da vicino.",
     work1_cat: "Brand Identity · Logo", work1_title: "CapitaNatale 2025",
     work2_cat: "Manifesto", work2_title: "Giorno della Memoria — Fondazione Monti Uniti",
     work3_cat: "Logo · Concorso", work3_title: "Napoli 2500 — 73° su 300",
@@ -3509,8 +3557,12 @@ const TRANSLATIONS = {
     reel4_title: "Rignano Garganico",
     reel4_desc: "The day among the olive groves and the farm: the walk with the herd, the barn, the milking and caciocavallo-making over the fireplace.",
     works_label: "Portfolio",
-    works_title: "Selected work.",
-    works_sub: "A selection of real projects: logos, campaigns, posters and layout design. Click a project to take a closer look.",
+    works_title: "Work & experience.",
+    grp_tir: "Internships / work placements",
+    grp_work: "Work experience",
+    grp_study: "Study projects",
+    gv_cat: "Photography · Video", gv_title: "GarganoVivo Festival", gv_btn: "See photos & reels",
+    works_sub: "Real projects for institutions, businesses and clients, plus the work born during my studies. Click a project to take a closer look.",
     work1_cat: "Brand Identity · Logo", work1_title: "CapitaNatale 2025",
     work2_cat: "Poster", work2_title: "Holocaust Remembrance Day — Fondazione Monti Uniti",
     work3_cat: "Logo · Contest", work3_title: "Naples 2500 — 73rd of 300",
@@ -4408,7 +4460,17 @@ function toggleLang() {
       document.getElementById('bookCounter').textContent = cur === 0 ? 'Copertina' : cur === N ? 'Fine' : RECIPES[cur - 1] + ' · ' + cur + '/' + RECIPES.length;
       document.querySelector('.book-prev').disabled = cur === 0;
       document.querySelector('.book-next').disabled = cur === N;
+      placeArrows();
     }
+    // frecce sempre appena sotto il libro
+    function placeArrows() {
+      const r = book.getBoundingClientRect(); if (!r.height) return;
+      const top = Math.min(r.bottom + 14, innerHeight - 50) + 'px';
+      document.querySelectorAll('#bookModal .book-prev, #bookModal .book-next').forEach(function (b) { b.style.setProperty('top', top, 'important'); });
+      const hint = document.querySelector('#bookModal .book-rotate');
+      if (hint) hint.style.setProperty('bottom', 'auto', 'important'), hint.style.setProperty('top', Math.min(r.bottom + 64, innerHeight - 30) + 'px', 'important');
+    }
+    window.addEventListener('resize', function () { if (document.getElementById('bookModal').classList.contains('active')) placeArrows(); });
     window.bookGo = function (d) {
       const n = Math.max(0, Math.min(N, cur + d)); if (n === cur) return;
       const leaf = book.querySelectorAll('.book-leaf')[d > 0 ? cur : cur - 1];
@@ -4419,6 +4481,7 @@ function toggleLang() {
       if (!built) build(); cur = 0; render();
       document.querySelectorAll('video').forEach(function (v) { v.pause(); });
       document.getElementById('bookModal').classList.add('active'); document.body.style.overflow = 'hidden';
+      requestAnimationFrame(placeArrows);
     };
     window.closeBook = function () { document.getElementById('bookModal').classList.remove('active'); document.body.style.overflow = ''; };
     const stage = document.getElementById('bookStage');
@@ -4483,6 +4546,8 @@ function toggleLang() {
       var t = card.dataset.open;
       var img = card.querySelector('img[data-cover]');
       if (t === 'book' || t === 'vs') {
+      } else if (t === 'gv') {
+        img.src = BOARDS.garganovivo.imgs[0];
       } else if (t === 'cap') {
         img.src = BOARDS.capitanatale.imgs[0];
       } else if (t === 'board') {
@@ -4493,7 +4558,7 @@ function toggleLang() {
         var src = document.querySelector('#' + t + ' img');
         if (src) img.src = src.src;
       }
-      function open() { if (t === 'vs') return openVS(); if (t === 'book') return openBook(); if (t === 'cap') return openBoard('capitanatale'); t === 'board' ? openBoard('foggiapp') : t === 'gallery' ? openBoard('album') : openModal(t); }
+      function open() { if (t === 'gv') return document.getElementById('fotografia').scrollIntoView({ behavior: 'smooth' }); if (t === 'vs') return openVS(); if (t === 'book') return openBook(); if (t === 'cap') return openBoard('capitanatale'); t === 'board' ? openBoard('foggiapp') : t === 'gallery' ? openBoard('album') : openModal(t); }
       card.addEventListener('click', open);
       card.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
