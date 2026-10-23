@@ -2492,6 +2492,25 @@
   #boardModal.strip .board-slide { flex: 0 0 auto; padding: 0; margin: 0; overflow: visible; display: block; line-height: 0; scroll-snap-align: center; }
   #boardModal.strip .board-slide img { border-radius: 0 !important; box-shadow: none !important; margin: 0; display: block; }
 
+  /* Festival: foto grande + striscia di miniature in basso (come Foto di iPhone) */
+  .board-thumbs { display: none; }
+  #boardModal.thumbs .board-thumbs {
+    display: flex; position: absolute; left: 0; right: 0; bottom: 84px; z-index: 3;
+    height: 64px; align-items: center; gap: 3px; overflow-x: auto; overflow-y: hidden;
+    padding: 0 calc(50% - 21px); scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  #boardModal.thumbs .board-thumbs::-webkit-scrollbar { display: none; }
+  .board-thumbs button { flex: 0 0 42px; height: 56px; padding: 0; border: 0; border-radius: 4px; overflow: hidden; background: #15151c; opacity: 0.5; transition: opacity .2s, transform .2s, box-shadow .2s; }
+  .board-thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .board-thumbs button.on { opacity: 1; transform: scale(1.14); box-shadow: 0 0 0 2px #fff, 0 6px 18px rgba(0,0,0,.5); z-index: 1; }
+  #boardModal.thumbs .board-slide { padding-bottom: 170px; }
+  #boardModal.thumbs .board-hint { display: none; }
+  @media (max-width: 700px) {
+    #boardModal.thumbs .board-thumbs { bottom: 80px; }
+    #boardModal.thumbs .board-slide { padding-bottom: 160px; }
+  }
+
   /* ══ SKILLS — card sfalsate con linea luminosa (stile tavola di riferimento) ══ */
   .sk-head { text-align: center; display: flex; flex-direction: column; align-items: center; }
   .sk-head .section-title { margin-bottom: 18px; }
@@ -2951,7 +2970,7 @@
   </div>
 
   <div class="proj-group" id="esperienze">
-    <h3 class="proj-group-title reveal"><span data-i18n="grp_tir">Tirocini / inserimenti lavorativi</span><i>3</i></h3>
+    <h3 class="proj-group-title reveal"><span data-i18n="grp_tir">Tirocini / inserimenti lavorativi</span><i>6</i></h3>
     <div class="proj-grid">
       <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="modal2" aria-label="Fondazione Monti Uniti Foggia">
         <div class="work-cover"><img data-cover="modal2" alt="Fondazione Monti Uniti Foggia" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
@@ -2980,36 +2999,7 @@
           <span class="view-btn" data-i18n="exp4_btn">Guarda il progetto</span>
         </div>
       </article>
-    </div>
-  </div>
 
-  <div class="proj-group">
-    <h3 class="proj-group-title reveal"><span data-i18n="grp_work">Esperienze lavorative</span><i>2</i></h3>
-    <div class="proj-grid proj-grid-2">
-      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gv" aria-label="Festival GarganoVivo">
-        <div class="work-cover"><img data-cover="gv" alt="Festival GarganoVivo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-        <div class="proj-info">
-          <div class="proj-top"><span class="work-cat" data-i18n="gv_cat">Fotografia · Video</span><span class="work-year" data-i18n="exp5_year">Ott 2026</span></div>
-          <h3 class="work-title" data-i18n="gv_title">Festival GarganoVivo</h3>
-          <p class="work-desc" data-i18n="exp5_desc">Servizio fotografico e video per GarganoVivo – Radici in cammino, il festival del Parco Nazionale del Gargano: incontri, spettacoli, escursioni, degustazioni e serate nei borghi di San Nicandro, Apricena, Serracapriola e Rignano Garganico.</p>
-          <span class="view-btn" data-i18n="gv_btn">Guarda foto e reel</span>
-        </div>
-      </article>
-      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gallery" aria-label="Album fotografici per @perfectphoto">
-        <div class="work-cover"><img data-cover="gallery" alt="Album fotografici per @perfectphoto" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
-        <div class="proj-info">
-          <div class="proj-top"><span class="work-cat" data-i18n="work4_cat">Editoriale · Fotolibri</span><span class="work-year">2025 – ora</span></div>
-          <h3 class="work-title" data-i18n="work4_title">Album fotografici per @perfectphoto</h3>
-          <p class="work-desc" data-i18n="exp2_desc">Gestione e creazione di pagine di fotolibri per il fotografo @perfectphoto.</p>
-          <span class="view-btn" data-i18n="exp2_btn">Guarda gli album</span>
-        </div>
-      </article>
-    </div>
-  </div>
-
-  <div class="proj-group">
-    <h3 class="proj-group-title reveal"><span data-i18n="grp_study">Altri progetti</span><i>3</i></h3>
-    <div class="proj-grid">
       <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="vs" aria-label="Studio Dentistico">
         <div class="work-cover"><img src="media/dentistico/cover.jpg" alt="Studio Dentistico, logo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
         <div class="proj-info">
@@ -3039,6 +3029,31 @@
       </article>
     </div>
   </div>
+
+  <div class="proj-group">
+    <h3 class="proj-group-title reveal"><span data-i18n="grp_work">Esperienze lavorative</span><i>2</i></h3>
+    <div class="proj-grid proj-grid-2">
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gv" aria-label="Festival GarganoVivo">
+        <div class="work-cover"><img data-cover="gv" alt="Festival GarganoVivo" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="gv_cat">Fotografia · Video</span><span class="work-year" data-i18n="exp5_year">Ott 2026</span></div>
+          <h3 class="work-title" data-i18n="gv_title">Festival GarganoVivo</h3>
+          <p class="work-desc" data-i18n="exp5_desc">Servizio fotografico e video per GarganoVivo – Radici in cammino, il festival del Parco Nazionale del Gargano: incontri, spettacoli, escursioni, degustazioni e serate nei borghi di San Nicandro, Apricena, Serracapriola e Rignano Garganico.</p>
+          <span class="view-btn" data-i18n="gv_btn">Guarda foto e reel</span>
+        </div>
+      </article>
+      <article class="work-card proj-card reveal" role="button" tabindex="0" data-open="gallery" aria-label="Album fotografici per @perfectphoto">
+        <div class="work-cover"><img data-cover="gallery" alt="Album fotografici per @perfectphoto" loading="lazy"><span class="work-open" aria-hidden="true"><span>↗</span></span></div>
+        <div class="proj-info">
+          <div class="proj-top"><span class="work-cat" data-i18n="work4_cat">Editoriale · Fotolibri</span><span class="work-year">2025 – ora</span></div>
+          <h3 class="work-title" data-i18n="work4_title">Album fotografici per @perfectphoto</h3>
+          <p class="work-desc" data-i18n="exp2_desc">Gestione e creazione di pagine di fotolibri per il fotografo @perfectphoto.</p>
+          <span class="view-btn" data-i18n="exp2_btn">Guarda gli album</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
 </section>
 
 <!-- FOTO & VIDEO — GarganoVivo -->
@@ -4192,6 +4207,7 @@ function toggleLang() {
   <button class="board-nav board-prev" onclick="boardGo(-1)" aria-label="Precedente">←</button>
   <div class="board-track" id="boardTrack"></div>
   <button class="board-nav board-next" onclick="boardGo(1)" aria-label="Successiva">→</button>
+  <div class="board-thumbs" id="boardThumbs" aria-label="Miniature"></div>
   <span class="board-hint" data-i18n="board_hint">Trascina o usa le frecce per scorrere · Zoom con + e −</span>
   <div id="boardZoom">
     <button class="zoom-btn" onclick="boardZoom(-1)">−</button>
@@ -4233,6 +4249,7 @@ function toggleLang() {
     garganovivo: {
       title: 'Festival GarganoVivo',
       strip: false,
+      thumbs: true,
       cover: 0,
       imgs: [
         "media/img/037.jpg",
@@ -4345,7 +4362,47 @@ function toggleLang() {
     document.getElementById('boardCounter').textContent = (boardIdx + 1) + ' / ' + n;
     document.querySelector('.board-prev').disabled = boardIdx === 0;
     document.querySelector('.board-next').disabled = boardIdx === n - 1;
+    syncThumbs();
   }
+  // ── miniature: toccane una per saltare, oppure scorri la striscia per sfogliare veloce
+  let thumbUser = 0;
+  function buildThumbs(set) {
+    const box = document.getElementById('boardThumbs'); box.innerHTML = '';
+    if (!set.thumbs) return;
+    set.imgs.forEach(function (src, i) {
+      const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Foto ' + (i + 1));
+      const im = document.createElement('img'); im.src = src; im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; b.appendChild(im);
+      b.addEventListener('click', function () { thumbUser = 0; showPhoto(i, true); });
+      box.appendChild(b);
+    });
+  }
+  function thumbCenter(box, i) { const b = box.children[i]; return b ? b.offsetLeft + b.offsetWidth / 2 - box.clientWidth / 2 : 0; }
+  function syncThumbs() {
+    const box = document.getElementById('boardThumbs'); if (!box.children.length) return;
+    [].forEach.call(box.children, function (b, i) { b.classList.toggle('on', i === boardIdx); });
+    if (Date.now() - thumbUser > 350) box.scrollTo({ left: thumbCenter(box, boardIdx), behavior: 'smooth' });
+  }
+  function showPhoto(i, smooth) {
+    if (!boardSet || i === boardIdx) { syncThumbs(); return; }
+    if (boardZ > 1) boardSetZoom(1);
+    boardIdx = i; boardLock = Date.now() + 500;
+    const t = trackEl();
+    if (smooth) t.scrollTo({ left: slideLeft(i), behavior: 'smooth' }); else boardJump(t, slideLeft(i));
+    boardUpdate();
+  }
+  (function () {
+    const box = document.getElementById('boardThumbs');
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { box.addEventListener(ev, function () { thumbUser = Date.now(); }, { passive: true }); });
+    box.addEventListener('touchmove', function () { thumbUser = Date.now(); }, { passive: true });
+    box.addEventListener('wheel', function (e) { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { e.preventDefault(); box.scrollLeft += e.deltaY; } }, { passive: false });
+    box.addEventListener('scroll', function () {
+      if (Date.now() - thumbUser > 600) return; // scorrimento automatico, non dell'utente
+      thumbUser = Date.now();
+      const c = box.scrollLeft + box.clientWidth / 2; let best = 0, bd = 1e9;
+      [].forEach.call(box.children, function (b, i) { const d = Math.abs(b.offsetLeft + b.offsetWidth / 2 - c); if (d < bd) { bd = d; best = i; } });
+      showPhoto(best, false);
+    }, { passive: true });
+  })();
   function boardGo(d) {
     if (!boardSet) return;
     if (boardZ > 1) boardSetZoom(1);
@@ -4384,6 +4441,8 @@ function toggleLang() {
     boardSet = name; boardIdx = st; boardZ = 1;
     const m = document.getElementById('boardModal'), track = trackEl();
     m.classList.toggle('strip', !!set.strip);
+    m.classList.toggle('thumbs', !!set.thumbs);
+    buildThumbs(set);
     track.classList.remove('zoomed');
     track.innerHTML = '';
     set.imgs.forEach(function (src, i) {
@@ -4403,7 +4462,8 @@ function toggleLang() {
   }
   function boardJump(t, x) { t.style.scrollBehavior = 'auto'; t.scrollLeft = x; requestAnimationFrame(function () { t.style.scrollBehavior = ''; }); }
   function closeBoard() {
-    document.getElementById('boardModal').classList.remove('active', 'strip');
+    document.getElementById('boardModal').classList.remove('active', 'strip', 'thumbs');
+    document.getElementById('boardThumbs').innerHTML = '';
     document.body.style.overflow = '';
     boardSet = null;
     trackEl().innerHTML = '';
