@@ -2511,6 +2511,30 @@
     #boardModal.thumbs .board-slide { padding-bottom: 160px; }
   }
 
+  /* Brand identity (CapitaNatale, FoggiApp): cursore che fa scorrere la presentazione */
+  .board-scrub { display: none; }
+  #boardModal.strip .board-scrub {
+    display: block; position: absolute; left: 50%; transform: translateX(-50%); bottom: 82px; z-index: 4;
+    width: min(780px, calc(100vw - 48px)); user-select: none; -webkit-user-select: none;
+  }
+  .bs-rail { position: relative; height: 40px; cursor: pointer; touch-action: none; outline: none; }
+  .bs-rail::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 8px; margin-top: -4px; border-radius: 8px; background: #1d1d22; }
+  .bs-fill { position: absolute; left: 0; top: 50%; height: 8px; margin-top: -4px; width: 0; border-radius: 8px; background: #4a22d6; box-shadow: 0 0 14px rgba(74,34,214,0.45); }
+  .bs-knob {
+    position: absolute; top: 50%; left: 0; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%;
+    background: #bdbdc2; border: 6px solid #4a22d6; box-sizing: border-box;
+    box-shadow: 0 0 0 10px rgba(74,34,214,0.12), 0 0 28px rgba(74,34,214,0.7);
+    transition: transform .15s;
+  }
+  .bs-rail.active .bs-knob, .bs-rail:focus-visible .bs-knob { transform: scale(1.15); }
+  .bs-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 0.8rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.38); pointer-events: none; }
+  #boardModal.strip .board-nav, #boardModal.strip .board-hint { display: none !important; }
+  #boardModal.strip .board-track { padding-bottom: 170px; }
+  @media (max-width: 700px) {
+    #boardModal.strip .board-scrub { bottom: 84px; width: calc(100vw - 40px); }
+    #boardModal.strip .board-track { padding-bottom: 160px; }
+  }
+
   /* ══ SKILLS — card sfalsate con linea luminosa (stile tavola di riferimento) ══ */
   .sk-head { text-align: center; display: flex; flex-direction: column; align-items: center; }
   .sk-head .section-title { margin-bottom: 18px; }
@@ -3468,6 +3492,7 @@ const TRANSLATIONS = {
     work5_desc: "Identità visiva per un'app turistica dedicata a Foggia: dal concept al logo ispirato alla cupola liberty di Piazza Cavour, fino a palette, tipografia, merchandising, app e affissioni.",
     work5_btn: "Sfoglia le tavole",
     board_hint: "Trascina o usa le frecce per scorrere · Zoom con + e −",
+    scrub_start: "inizio", scrub_mid: "scorri", scrub_end: "fine",
     work4_cat: "Editoriale · Fotolibri", work4_title: "Album fotografici per @perfectphoto",
     nav_servizi: "Competenze",
     nav_esperienze: "Esperienze",
@@ -3593,6 +3618,7 @@ const TRANSLATIONS = {
     work5_desc: "Visual identity for a tourism app dedicated to Foggia: from the concept to a logo inspired by the Liberty-style dome of Piazza Cavour, through palette, typography, merchandise, app and billboards.",
     work5_btn: "Browse the boards",
     board_hint: "Drag or use the arrows to scroll · Zoom with + and −",
+    scrub_start: "start", scrub_mid: "scroll", scrub_end: "end",
     work4_cat: "Editorial · Photobooks", work4_title: "Photo albums for @perfectphoto",
     nav_servizi: "Skills",
     nav_esperienze: "Experience",
@@ -4208,6 +4234,10 @@ function toggleLang() {
   <div class="board-track" id="boardTrack"></div>
   <button class="board-nav board-next" onclick="boardGo(1)" aria-label="Successiva">→</button>
   <div class="board-thumbs" id="boardThumbs" aria-label="Miniature"></div>
+  <div class="board-scrub" id="boardScrub">
+    <div class="bs-rail" id="bsRail" role="slider" aria-label="Scorri la presentazione" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><div class="bs-fill" id="bsFill"></div><div class="bs-knob" id="bsKnob"></div></div>
+    <div class="bs-labels"><span data-i18n="scrub_start">inizio</span><span data-i18n="scrub_mid">scorri</span><span data-i18n="scrub_end">fine</span></div>
+  </div>
   <span class="board-hint" data-i18n="board_hint">Trascina o usa le frecce per scorrere · Zoom con + e −</span>
   <div id="boardZoom">
     <button class="zoom-btn" onclick="boardZoom(-1)">−</button>
@@ -4460,6 +4490,35 @@ function toggleLang() {
     boardLock = Date.now() + 1500;
     requestAnimationFrame(function () { boardFitAll(); boardJump(track, slideLeft(st)); boardUpdate(); });
   }
+
+  // ── cursore delle brand identity: trascina il pallino e la presentazione scorre con lui
+  (function () {
+    const rail = document.getElementById('bsRail'), fill = document.getElementById('bsFill'), knob = document.getElementById('bsKnob');
+    let drag = false;
+    function maxS() { const t = trackEl(); return Math.max(1, t.scrollWidth - t.clientWidth); }
+    function show(p) { p = Math.max(0, Math.min(1, p)); fill.style.width = (p * 100) + '%'; knob.style.left = (p * 100) + '%'; rail.setAttribute('aria-valuenow', Math.round(p * 100)); }
+    function fromX(x) { const r = rail.getBoundingClientRect(); return (x - r.left) / r.width; }
+    function seek(p) { p = Math.max(0, Math.min(1, p)); const t = trackEl(); t.scrollLeft = p * maxS(); show(p); }
+    rail.addEventListener('pointerdown', function (e) {
+      if (!isStrip()) return;
+      if (boardZ > 1) boardSetZoom(1);
+      drag = true; rail.classList.add('active'); rail.setPointerCapture(e.pointerId);
+      trackEl().classList.add('dragging'); seek(fromX(e.clientX)); e.preventDefault();
+    });
+    rail.addEventListener('pointermove', function (e) { if (drag) seek(fromX(e.clientX)); });
+    function end() {
+      if (!drag) return; drag = false; rail.classList.remove('active');
+      const t = trackEl(); t.classList.remove('dragging');
+      boardIdx = currentIndex(); boardUpdate();
+    }
+    rail.addEventListener('pointerup', end); rail.addEventListener('pointercancel', end);
+    rail.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { boardGo(1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { boardGo(-1); e.preventDefault(); }
+    });
+    trackEl().addEventListener('scroll', function () { if (!drag && isStrip()) show(trackEl().scrollLeft / maxS()); }, { passive: true });
+    window.boardScrubReset = function () { show(0); };
+  })();
   function boardJump(t, x) { t.style.scrollBehavior = 'auto'; t.scrollLeft = x; requestAnimationFrame(function () { t.style.scrollBehavior = ''; }); }
   function closeBoard() {
     document.getElementById('boardModal').classList.remove('active', 'strip', 'thumbs');
