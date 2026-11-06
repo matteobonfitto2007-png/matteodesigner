@@ -1,0 +1,13 @@
+Studio Manovich - archivio completo
+
+Il sito pesa circa 147 MB e GitHub non accetta file oltre i 100 MB,
+quindi l'archivio e' diviso in due zip:
+
+  studio-manovich-parte-1.zip  pagina, 6 podcast, video dei capitoli 1-3
+  studio-manovich-parte-2.zip  video dei capitoli 4-6
+
+Come usarli:
+1. Estrai la parte 1: ottieni la cartella "studio-manovich".
+2. Estrai la parte 2 e sposta i tre video (cap4.mp4, cap5.mp4, cap6.mp4)
+   dentro studio-manovich/video/.
+3. Apri studio-manovich/index.html nel browser.
