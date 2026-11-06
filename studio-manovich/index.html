@@ -98,18 +98,19 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .player{background:#060A14;color:#EEF1F7}}
 :root[data-theme="dark"] .player{background:#060A14;color:#EEF1F7}
 /* video */
-.vplayer{background:#000;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:16/9;max-width:100%}
-.vplayer video{width:100%;height:100%;display:block;background:#000}
-.vhead{display:flex;justify-content:space-between;align-items:end;gap:12px}
-.vhead h2{font:400 clamp(22px,4vw,28px)/1.15 var(--display)}
-.vhead .dur{font:500 13px var(--mono);color:var(--ink2);flex:none}
-.vlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.vc{border:2px solid transparent;background:var(--surface);border-radius:14px;padding:0;overflow:hidden;text-align:left;box-shadow:var(--shadow);display:flex;flex-direction:column}
-.vc img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--chip)}
-.vc div{padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
-.vc span{font-size:12px;color:var(--ink2);font-weight:600}
-.vc b{font-weight:600;font-size:15px;line-height:1.3}
+.vlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.vc{background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:2px solid transparent;display:flex;flex-direction:column;min-width:0}
 .vc[aria-current="true"]{border-color:var(--cor)}
+.vbox{aspect-ratio:16/9;background:#000;position:relative}
+.vbox video{width:100%;height:100%;display:block;background:#000}
+.vthumb{border:0;padding:0;margin:0;width:100%;height:100%;display:block;position:relative;background:var(--chip);cursor:pointer}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:var(--cor);color:#fff;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:transform .15s}
+.vthumb:hover .vplay{transform:translate(-50%,-50%) scale(1.08)}
+.vplay svg{width:26px;height:26px}
+.vmeta{padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.vmeta span{font-size:12px;color:var(--ink2);font-weight:600}
+.vmeta b{font:400 18px/1.2 var(--display)}
 /* quiz */
 .qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px;color:var(--ink2)}
 .tag{font:600 12px/1 var(--body);padding:6px 9px;border-radius:6px;background:var(--chip);color:var(--ink);white-space:nowrap}
@@ -182,10 +183,8 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
   </section>
 
   <section id="v-video" class="panel" hidden>
-    <div class="vplayer"><video id="vid" controls preload="metadata" playsinline></video></div>
-    <div class="vhead"><div><span class="muted small" id="vcap">Capitolo 1</span><h2 id="vtitle"></h2></div><span class="dur" id="vdur"></span></div>
     <div class="vlist" id="vlist"></div>
-    <p class="muted small" id="vdl"></p>
+    <p class="muted small">Tocca un video per guardarlo lì dov'è. Il punto in cui ti fermi resta salvato in questo browser.</p>
   </section>
 
   <section id="v-quiz" class="panel" hidden>
@@ -304,17 +303,18 @@ au.addEventListener('error',()=>{$('#pt').textContent='Audio non disponibile al 
 
 
 /* ---------- video ---------- */
-const VD=window.VDUR||{};let vcur=store.get('vcur',1);const vid=$('#vid');
-function vSet(n,play){vcur=n;store.set('vcur',n);vid.src='video/cap'+n+'.mp4';vid.poster='video/cap'+n+'.jpg';
-  $('#vcap').textContent='Capitolo '+n;$('#vtitle').textContent=BANK[n-1].t;$('#vdur').textContent=VD[n]?fmt(VD[n]):'';
-  $$('#vlist .vc').forEach(b=>b.setAttribute('aria-current',String(+b.dataset.n===n)));
-  if(play){vid.play().catch(()=>{});$('.vplayer').scrollIntoView({block:'nearest'});}}
-$('#vlist').innerHTML=BANK.map(c=>'<button class="vc" data-n="'+c.n+'"><img src="video/cap'+c.n+'.jpg" alt="" loading="lazy"><div><span>Capitolo '+c.n+(VD[c.n]?' · '+fmt(VD[c.n]):'')+'</span><b>'+esc(c.t)+'</b></div></button>').join('');
-$$('#vlist .vc').forEach(b=>b.onclick=()=>vSet(+b.dataset.n,true));
-vid.addEventListener('play',()=>{if(!au.paused)au.pause()});
-au.addEventListener('play',()=>{if(!vid.paused)vid.pause()});
-vid.addEventListener('error',()=>{$('#vdl').textContent='Il video non si carica al momento. Riprova tra poco.'});
-vSet(vcur,false);
+const VD=window.VDUR||{};const vpos=store.get('vpos',{});
+$('#vlist').innerHTML=BANK.map(c=>'<article class="vc" data-n="'+c.n+'"><div class="vbox"><button class="vthumb" aria-label="Guarda il video del capitolo '+c.n+'"><img src="video/cap'+c.n+'.jpg" alt="" loading="lazy"><span class="vplay">'+PLAY+'</span></button></div><div class="vmeta"><span>Capitolo '+c.n+(VD[c.n]?' · '+fmt(VD[c.n]):'')+'</span><b>'+esc(c.t)+'</b></div></article>').join('');
+function vStop(except){$$('#vlist video').forEach(v=>{if(v!==except&&!v.paused)v.pause()})}
+$$('#vlist .vthumb').forEach(btn=>btn.onclick=()=>{const card=btn.closest('.vc'),n=+card.dataset.n,box=card.querySelector('.vbox');
+  const v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='auto';v.poster='video/cap'+n+'.jpg';v.src='video/cap'+n+'.mp4';
+  const start=vpos[n]||0;v.addEventListener('loadedmetadata',()=>{if(start>3&&start<v.duration-5)v.currentTime=start},{once:true});
+  v.addEventListener('play',()=>{vStop(v);if(!au.paused)au.pause();card.setAttribute('aria-current','true')});
+  v.addEventListener('pause',()=>{vpos[n]=v.currentTime;store.set('vpos',vpos)});
+  v.addEventListener('ended',()=>{vpos[n]=0;store.set('vpos',vpos)});
+  v.addEventListener('error',()=>{const p=document.createElement('p');p.className='muted small';p.style.margin='8px 12px';p.textContent='Il video non si carica al momento. Riprova tra poco.';card.appendChild(p)});
+  box.replaceChildren(v);v.play().catch(()=>{});});
+au.addEventListener('play',()=>vStop(null));
 
 /* ---------- quiz ---------- */
 let diff=store.get('diff',1),qn=store.get('qn',10);if(![5,10,20,30].includes(qn))qn=30;
