@@ -3037,7 +3037,6 @@ body.xp .exp-item{
 }
 body.xp .work-card, body.xp .reel-card, body.xp .sk-row, body.xp .xp-stat, body.xp .edu-item{
   transition:transform .5s var(--xp-ease), box-shadow .5s var(--xp-ease), border-color .4s !important;
-  transform-style:preserve-3d; will-change:transform;
 }
 body.xp .work-card:hover, body.xp .reel-card:hover, body.xp .sk-row:hover, body.xp .edu-item:hover{
   border-color:rgba(214,245,58,.45)!important;
@@ -3109,6 +3108,16 @@ body.xp #skills{text-align:center}
 body.xp #skills > .section-title{flex-direction:column;align-items:center}
 
 /* ── Entrate 3D (sostituiscono quelle esistenti) ── */
+@keyframes animRise { from { opacity:0; translate:0 50px; scale:.96 } to { opacity:1; translate:0 0; scale:1 } }
+@keyframes animClip { from { opacity:0; translate:0 70px; scale:.92 } to { opacity:1; translate:0 0; scale:1 } }
+@keyframes animTilt { from { opacity:0; translate:0 60px; scale:.94 } to { opacity:1; translate:0 0; scale:1 } }
+@keyframes animSkL { from { opacity:0; translate:-60px 30px } to { opacity:1; translate:0 0 } }
+@keyframes animSkR { from { opacity:0; translate:60px 30px } to { opacity:1; translate:0 0 } }
+@keyframes animFlip { from { opacity:0; translate:0 70px; scale:.94 } to { opacity:1; translate:0 0; scale:1 } }
+@keyframes animWipe { from { opacity:0; translate:-40px 20px } to { opacity:1; translate:0 0 } }
+@keyframes animLabel { from { opacity:0; letter-spacing:.6em } to { opacity:1 } }
+/* 3D + sfocatura solo su computer: Safari su iPhone sbaglia il disegno di vetro + 3D */
+@media (hover:hover) and (pointer:fine) {
 body.xp .proj-grid, body.xp .sk-stack, body.xp .reel-grid, body.xp .about-inner, body.xp footer, body.xp .xp-stats, body.xp .edu-list{perspective:1300px}
 @keyframes animRise { from { opacity:0; translate:0 70px; rotate:x 22deg; scale:.94; filter:blur(12px) } to { opacity:1; translate:0 0; rotate:x 0deg; scale:1; filter:blur(0) } }
 @keyframes animClip { from { opacity:0; translate:0 120px; rotate:x 38deg; scale:.86; filter:blur(16px) } 60% { filter:blur(0) } to { opacity:1; translate:0 0; rotate:x 0deg; scale:1; filter:none } }
@@ -3118,6 +3127,7 @@ body.xp .proj-grid, body.xp .sk-stack, body.xp .reel-grid, body.xp .about-inner,
 @keyframes animFlip { from { opacity:0; translate:0 120px; rotate:x 50deg; filter:blur(14px) } to { opacity:1; translate:0 0; rotate:x 0deg; filter:none } }
 @keyframes animWipe { from { opacity:0; translate:-50px 30px; rotate:y 25deg; filter:blur(10px) } to { opacity:1; translate:0 0; rotate:y 0deg; filter:none } }
 @keyframes animLabel { from { opacity:0; letter-spacing:.8em; filter:blur(8px) } to { opacity:1; filter:none } }
+}
 [data-anim="clip"] { --dur:1.25s }
 [data-anim="skL"], [data-anim="skR"] { --dur:1.15s }
 
@@ -3215,7 +3225,7 @@ body.xp-go .xp-hstat{animation:xpUp .9s var(--xp-ease) 1.3s both;translate:0 30p
 /* ═══════════ COVERFLOW LAVORI ═══════════ */
 .xp-flow{position:relative;height:clamp(300px,42vw,470px);margin:40px auto 30px;perspective:1400px;max-width:1300px;user-select:none;touch-action:pan-y}
 .xp-flow .it{position:absolute;left:50%;top:50%;width:clamp(200px,26vw,330px);aspect-ratio:4/5;margin:0;translate:-50% -50%;border-radius:26px;overflow:hidden;cursor:pointer;
-  transition:transform .9s var(--xp-ease),opacity .9s,filter .9s;transform-style:preserve-3d}
+  transition:transform .9s var(--xp-ease),opacity .9s,filter .9s}
 .xp-flow .it img{width:100%;height:100%;object-fit:cover;display:block}
 .xp-flow .it::after{content:'';position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(255,255,255,.22);
   background:linear-gradient(150deg,rgba(255,255,255,.28),transparent 32%,transparent 70%,rgba(106,53,255,.35));box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
@@ -3265,6 +3275,7 @@ body.xp nav .nav-links a{white-space:nowrap}
 }
 /* ═══════════ MOBILE ═══════════ */
 @media (max-width:900px){
+  .xp-flow .it figcaption{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(11,10,18,.78)}
   body.xp .xp-hero{grid-template-columns:1fr;padding:84px 18px 40px!important;align-items:start}
   .xp-stage{order:1;height:62svh;margin:0 -18px}
   .xp-copy{order:2;padding-bottom:30px;margin-top:-90px}
