@@ -5049,7 +5049,7 @@ function toggleLang() {
     form.addEventListener('input', function (e) { e.target.classList.remove('bad'); });
   }
 
-  /* ── entrata dei lavori: fila di miniature lontane → in primo piano → al proprio posto ── */
+  /* ── entrata dei lavori: a spirale, dal centro fino al proprio posto ── */
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cards = [].slice.call(document.querySelectorAll('.works .work-card'));
   if (RM || !cards.length || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
@@ -5058,24 +5058,20 @@ function toggleLang() {
   function fly(card, k, n) {
     var r = card.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
     var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    // 1) in fila, piccole e lontane
-    var rowX = vw * (0.5 + (k - (n - 1) / 2) * Math.min(0.13, 0.7 / n)) - cx;
-    var rowY = Math.min(vh * 0.32, Math.max(vh * 0.2, r.top)) - cy + r.height * 0.07;
-    // 2) in primo piano al centro
-    var big = Math.min(1.35, (vw * 0.82) / r.width, (vh * 0.8) / r.height);
-    var midX = vw / 2 - cx, midY = vh / 2 - cy;
-    var P = 'perspective(1400px) ';
-    card.classList.remove('fly-wait'); card.classList.add('fly-now');
-    var hold = 350 + k * 260, T = hold + 1250;
-    var row = P + 'translate3d(' + rowX + 'px,' + rowY + 'px,0) rotateY(55deg) scale(.13)';
-    var a = card.animate([
-      { opacity: 0, transform: row, offset: 0 },
-      { opacity: 1, transform: row, offset: 250 / T },
-      { opacity: 1, transform: row, offset: hold / T, easing: 'cubic-bezier(.5,0,.2,1)' },
-      { opacity: 1, transform: P + 'translate3d(' + midX + 'px,' + midY + 'px,0) rotateY(-10deg) scale(' + big + ')', offset: (hold + 600) / T, easing: 'cubic-bezier(.5,0,.15,1)' },
-      { opacity: 1, transform: P + 'translate3d(0,0,0) rotateY(0deg) scale(1)', offset: 1 }
-    ], { duration: T, fill: 'backwards', easing: 'linear' });
-    setTimeout(function () { card.style.zIndex = 70 + k; }, hold); 
+    // punto di partenza: dal centro dello schermo, poi la card scende lungo una spirale fino al suo posto
+    var vx = vw / 2 - cx, vy = vh / 2 - cy, len = Math.sqrt(vx * vx + vy * vy) || 1;
+    var R = Math.max(len, Math.min(vw, vh) * 0.55), a0 = Math.atan2(vy, vx);
+    var TURNS = 1.75, STEPS = 28, P = 'perspective(1400px) ', frames = [];
+    for (var i = 0; i <= STEPS; i++) {
+      var p = i / STEPS, e = 1 - Math.pow(1 - p, 3), q = 1 - e;      // q: quanto manca all'arrivo
+      var ang = a0 + q * TURNS * 2 * Math.PI, rad = R * q;
+      frames.push({
+        offset: p, opacity: Math.min(1, p * 5),
+        transform: P + 'translate3d(' + (Math.cos(ang) * rad).toFixed(1) + 'px,' + (Math.sin(ang) * rad).toFixed(1) + 'px,0) rotate(' + (q * TURNS * 360).toFixed(1) + 'deg) rotateY(' + (q * 50).toFixed(1) + 'deg) scale(' + (0.12 + 0.88 * e).toFixed(3) + ')'
+      });
+    }
+    card.classList.remove('fly-wait'); card.classList.add('fly-now'); card.style.zIndex = 70 + k;
+    var a = card.animate(frames, { duration: 1900, delay: k * 170, fill: 'backwards', easing: 'linear' });
     a.onfinish = a.oncancel = function () { card.classList.remove('fly-now'); card.style.zIndex = ''; };
   }
   var queue = [], t = null;
