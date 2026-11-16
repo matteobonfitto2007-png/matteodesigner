@@ -2997,7 +2997,27 @@
   ::selection { background: var(--lime); color: #141414; }
   ::-webkit-scrollbar-track { background: #0b0a12; }
   ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 99px; }
-</style>
+
+  /* ── Modulo contatti ─────────────────────────────────────────────────── */
+  .cform { width: 100%; max-width: 640px; margin: 32px auto 4px; text-align: left; }
+  .cform-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cform label { display: block; margin-bottom: 16px; font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .cform label > span { display: block; margin-bottom: 8px; }
+  .cform input, .cform textarea { display: block; width: 100%; box-sizing: border-box; padding: 14px 16px; border-radius: var(--r-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; -webkit-appearance: none; appearance: none; }
+  .cform textarea { min-height: 140px; resize: vertical; line-height: 1.5; }
+  .cform input::placeholder, .cform textarea::placeholder { color: #6a6878; }
+  .cform input:focus, .cform textarea:focus { border-color: var(--purple-soft); background: var(--surface-2); box-shadow: 0 0 0 3px rgba(106,53,255,0.28); }
+  .cform .bad { border-color: var(--pink) !important; box-shadow: 0 0 0 3px rgba(255,79,160,0.22) !important; }
+  .cform-foot { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 4px; }
+  .cform-send { display: inline-flex; align-items: center; gap: 10px; padding: 15px 34px; border: 0; border-radius: 999px; cursor: pointer; background: var(--purple); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; box-shadow: 0 0 24px rgba(106,53,255,0.55), 0 14px 34px -12px rgba(106,53,255,0.7); transition: transform 0.2s, box-shadow 0.2s; }
+  .cform-send:hover { transform: translateY(-3px); box-shadow: 0 0 34px rgba(106,53,255,0.75), 0 20px 42px -12px rgba(106,53,255,0.9); }
+  .cform-note { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; line-height: 1.5; color: var(--muted); text-align: center; }
+  .cform-note a { color: var(--purple-soft); text-decoration: underline; cursor: pointer; }
+  .cform-msg { margin: 0; min-height: 1em; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.8rem; color: var(--pink); text-align: center; }
+  .cform-msg.ok { color: var(--lime); }
+  @media (max-width: 560px) { .cform-row { grid-template-columns: 1fr; gap: 0; } .cform-send { width: 100%; justify-content: center; } }
+
+  </style>
 </head>
 <body class="gated">
 <div id="vtGlow" aria-hidden="true"></div>
@@ -3570,6 +3590,18 @@
       <span data-i18n="footer_headline">Hai un progetto in mente?</span> <span style="color:var(--purple);" data-i18n="footer_headline_accent">Parliamone.</span><br>
       <span style="font-weight:300; font-size:0.75em; color:#888;" data-i18n="footer_sub">Raccontami la tua idea e costruiamo insieme qualcosa di straordinario!</span>
     </p>
+    <form class="cform reveal" id="contactForm" novalidate>
+      <div class="cform-row">
+        <label><span data-i18n="cf_name">Il tuo nome</span><input type="text" name="nome" autocomplete="name" placeholder="Mario Rossi" data-ph="cf_name_ph" required></label>
+        <label><span data-i18n="cf_mail">La tua email</span><input type="email" name="email" autocomplete="email" placeholder="tuaemail@esempio.com" data-ph="cf_mail_ph"></label>
+      </div>
+      <label><span data-i18n="cf_text">Messaggio</span><textarea name="messaggio" placeholder="Raccontami la tua attivita e cosa ti serve: logo, social, sito..." data-ph="cf_text_ph" required></textarea></label>
+      <div class="cform-foot">
+        <p class="cform-msg" id="cfMsg" role="status" aria-live="polite"></p>
+        <button type="submit" class="cform-send"><span data-i18n="cf_send">Invia messaggio</span> <span aria-hidden="true">→</span></button>
+        <p class="cform-note"><span data-i18n="cf_note">Si apre Gmail con il messaggio gia scritto: ti basta premere Invia.</span> <a id="cfAlt" data-i18n="cf_alt">Non usi Gmail? Apri la tua app di posta</a></p>
+      </div>
+    </form>
     <div class="footer-cta-grid">
     <a href="https://wa.me/393202920002?text=Ciao%20Matteo%2C%20ho%20visto%20il%20tuo%20portfolio%20e%20vorrei%20parlarti%20di%20un%20progetto." target="_blank" rel="noopener" class="footer-cta-btn btn-primary btn-wa" data-i18n-btn="footer_wa">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.46A11.3 11.3 0 0 0 12.05.72C5.8.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.3l5.7-1.5a11.3 11.3 0 0 0 5.74 1.47h.01c6.26 0 11.35-5.09 11.35-11.35 0-3.03-1.18-5.88-3.32-8.02z"/></svg>
@@ -3709,6 +3741,10 @@ const TRANSLATIONS = {
     cv_title: "Curriculum Vitae.",
     footer_wa: "Scrivimi su WhatsApp",
     footer_mail: "Scrivimi una mail",
+    cf_name: "Il tuo nome", cf_mail: "La tua email", cf_text: "Messaggio", cf_send: "Invia messaggio",
+    cf_note: "Si apre Gmail con il messaggio gia scritto: ti basta premere Invia.", cf_alt: "Non usi Gmail? Apri la tua app di posta",
+    cf_name_ph: "Mario Rossi", cf_mail_ph: "tuaemail@esempio.com", cf_text_ph: "Raccontami la tua attivita e cosa ti serve: logo, social, sito...",
+    cf_err: "Scrivi il tuo nome e il messaggio.", cf_err_mail: "Controlla l'indirizzo email.", cf_ok: "Gmail si e aperto: premi Invia per mandarmi il messaggio.", cf_subj: "Nuovo progetto", cf_reply: "Rispondimi a",
     footer_ig: "Seguimi su Instagram",
     footer_call: "Chiamami",
     mob_menu_label: "Menu",
@@ -3835,6 +3871,10 @@ const TRANSLATIONS = {
     cv_title: "Curriculum Vitae.",
     footer_wa: "Message me on WhatsApp",
     footer_mail: "Send me an email",
+    cf_name: "Your name", cf_mail: "Your email", cf_text: "Message", cf_send: "Send message",
+    cf_note: "Gmail opens with your message already written: just press Send.", cf_alt: "Don't use Gmail? Open your mail app",
+    cf_name_ph: "John Smith", cf_mail_ph: "youremail@example.com", cf_text_ph: "Tell me about your business and what you need: logo, social, website...",
+    cf_err: "Please write your name and message.", cf_err_mail: "Please check the email address.", cf_ok: "Gmail has opened: press Send to deliver your message.", cf_subj: "New project", cf_reply: "Reply to",
     footer_ig: "Follow me on Instagram",
     footer_call: "Call me",
     mob_menu_label: "Menu",
@@ -4961,5 +5001,37 @@ function toggleLang() {
     } else start();
   })();
 </script>
+<script>
+(function () {
+  var TO = 'matteo.bonfitto.grafico@gmail.com';
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+  function T(k){ try { return TRANSLATIONS[currentLang][k] || TRANSLATIONS.it[k]; } catch(e){ return k; } }
+  var msg = document.getElementById('cfMsg');
+  if (typeof window.setLang === 'function') {
+    var _set = window.setLang;
+    window.setLang = function (l) { _set(l); form.querySelectorAll('[data-ph]').forEach(function (el) { el.placeholder = T(el.dataset.ph); }); msg.textContent = ''; msg.className = 'cform-msg'; };
+  }
+  function build() {
+    var f = form.elements, n = f.nome.value.trim(), m = f.email.value.trim(), t = f.messaggio.value.trim();
+    [f.nome, f.email, f.messaggio].forEach(function (el) { el.classList.remove('bad'); });
+    msg.className = 'cform-msg';
+    if (!n || !t) { if (!n) f.nome.classList.add('bad'); if (!t) f.messaggio.classList.add('bad'); msg.textContent = T('cf_err'); (n ? f.messaggio : f.nome).focus(); return null; }
+    if (m && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { f.email.classList.add('bad'); msg.textContent = T('cf_err_mail'); f.email.focus(); return null; }
+    return { su: T('cf_subj') + ' \u2014 ' + n, body: t + '\n\n\u2014 ' + n + (m ? '\n' + T('cf_reply') + ': ' + m : '') };
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); var d = build(); if (!d) return;
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(TO) + '&su=' + encodeURIComponent(d.su) + '&body=' + encodeURIComponent(d.body), '_blank', 'noopener');
+    msg.className = 'cform-msg ok'; msg.textContent = T('cf_ok');
+  });
+  document.getElementById('cfAlt').addEventListener('click', function (e) {
+    e.preventDefault(); var d = build(); if (!d) return;
+    location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(d.su) + '&body=' + encodeURIComponent(d.body);
+  });
+  form.addEventListener('input', function (e) { e.target.classList.remove('bad'); });
+})();
+</script>
+
 </html>
 
