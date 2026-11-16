@@ -2999,17 +2999,36 @@
   ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 99px; }
 </style>
 <style id="exp3-layer">
-/* ═══ ESPERIMENTO 3 · entrata dei lavori "a volo" + modulo contatti ═══ */
-/* le card dei lavori le anima lo script qui sotto, non più l'effetto precedente */
-html.anim-on .work-card[data-anim]{opacity:1;animation:none!important}
-html.fly-on .work-card.fly-wait{opacity:0}
-.work-card.fly-now{position:relative;z-index:60;will-change:transform,opacity;pointer-events:none}
-@media (prefers-reduced-motion:reduce){ html.fly-on .work-card.fly-wait{opacity:1} }
+/* ═══ ESPERIMENTO · Liquid Glass stile iOS + modulo contatti ═══ */
+/* Liquid Glass come le cartelle di iOS: vetro chiaro e trasparente, sfondo molto sfocato, bordo sottile luminoso */
+html body nav,
+html body .work-card,
+html body .sk-card,
+html body .reel-card,
+html body .about-langs,
+html body .edu-list,
+html body .exp-item,
+html body .hero-stats,
+html body .cf{
+  background:linear-gradient(135deg,rgba(255,255,255,.17),rgba(255,255,255,.07) 45%,rgba(255,255,255,.11)) !important;
+  -webkit-backdrop-filter:blur(30px) saturate(190%) brightness(1.12);
+  backdrop-filter:blur(30px) saturate(190%) brightness(1.12);
+  border:1px solid rgba(255,255,255,.34) !important;
+  box-shadow:
+    inset 1.5px 1.5px 0.5px rgba(255,255,255,.5),
+    inset -1px -1px 0.5px rgba(255,255,255,.28),
+    inset 0 0 22px rgba(255,255,255,.06),
+    0 18px 44px -18px rgba(0,0,0,.55) !important;
+}
+html body .work-card:hover, html body .reel-card:hover, html body .sk-card:hover{
+  border-color:rgba(255,255,255,.6) !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.24),rgba(255,255,255,.1) 45%,rgba(255,255,255,.16)) !important;
+}
+/* contatti: niente riquadro esterno */
+html body .footer-hero-card{background:none !important;border:0 !important;box-shadow:none !important;padding-left:0 !important;padding-right:0 !important;-webkit-backdrop-filter:none;backdrop-filter:none}
 
 /* modulo contatti */
-.cf{max-width:620px;margin:30px auto 0;padding:clamp(18px,3vw,28px);text-align:left;border-radius:28px;
-  border:1px solid rgba(255,255,255,.12);
-  background:radial-gradient(120% 120% at 0% 0%,rgba(106,53,255,.22),transparent 60%),rgba(11,10,18,.55)}
+.cf{max-width:620px;margin:30px auto 0;padding:clamp(18px,3vw,28px);text-align:left;border-radius:28px}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .cf label{display:block;margin:0 0 14px;font:800 .66rem 'Montserrat',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .cf label span{display:block;margin-bottom:8px}
@@ -5049,43 +5068,6 @@ function toggleLang() {
     form.addEventListener('input', function (e) { e.target.classList.remove('bad'); });
   }
 
-  /* ── entrata dei lavori: a spirale, dal centro fino al proprio posto ── */
-  var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cards = [].slice.call(document.querySelectorAll('.works .work-card'));
-  if (RM || !cards.length || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
-  document.documentElement.classList.add('fly-on');
-  cards.forEach(function (c) { c.classList.add('fly-wait'); });
-  function fly(card, k, n) {
-    var r = card.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
-    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    // punto di partenza: dal centro dello schermo, poi la card scende lungo una spirale fino al suo posto
-    var vx = vw / 2 - cx, vy = vh / 2 - cy, len = Math.sqrt(vx * vx + vy * vy) || 1;
-    var R = Math.max(len, Math.min(vw, vh) * 0.55), a0 = Math.atan2(vy, vx);
-    var TURNS = 1.75, STEPS = 28, P = 'perspective(1400px) ', frames = [];
-    for (var i = 0; i <= STEPS; i++) {
-      var p = i / STEPS, e = 1 - Math.pow(1 - p, 3), q = 1 - e;      // q: quanto manca all'arrivo
-      var ang = a0 + q * TURNS * 2 * Math.PI, rad = R * q;
-      frames.push({
-        offset: p, opacity: Math.min(1, p * 5),
-        transform: P + 'translate3d(' + (Math.cos(ang) * rad).toFixed(1) + 'px,' + (Math.sin(ang) * rad).toFixed(1) + 'px,0) rotate(' + (q * TURNS * 360).toFixed(1) + 'deg) rotateY(' + (q * 50).toFixed(1) + 'deg) scale(' + (0.12 + 0.88 * e).toFixed(3) + ')'
-      });
-    }
-    card.classList.remove('fly-wait'); card.classList.add('fly-now'); card.style.zIndex = 70 + k;
-    var a = card.animate(frames, { duration: 1900, delay: k * 170, fill: 'backwards', easing: 'linear' });
-    a.onfinish = a.oncancel = function () { card.classList.remove('fly-now'); card.style.zIndex = ''; };
-  }
-  var queue = [], t = null;
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); queue.push(e.target); } });
-    clearTimeout(t); t = setTimeout(function () {
-      var q = queue.sort(function (a, b) { var A = a.getBoundingClientRect(), B = b.getBoundingClientRect(); return (A.top - B.top) || (A.left - B.left); }); queue = [];
-      q.forEach(function (c, i) { fly(c, i, q.length); });
-    }, 60);
-  }, { threshold: 0.12 });
-  function start() { cards.forEach(function (c) { io.observe(c); }); }
-  if (document.body.classList.contains('gated')) {
-    var w = setInterval(function () { if (!document.body.classList.contains('gated')) { clearInterval(w); setTimeout(start, 600); } }, 150);
-  } else start();
 })();
 </script>
 
