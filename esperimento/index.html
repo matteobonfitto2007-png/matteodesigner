@@ -2998,68 +2998,38 @@
   ::-webkit-scrollbar-track { background: #0b0a12; }
   ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 99px; }
 </style>
-<style id="glass-layer">
-/* ═══ ESPERIMENTO 2 · solo Liquid Glass + entrata dei lavori ═══ */
-html body nav,
-html body .work-card,
-html body .sk-row, html body .sk-card,
-html body .reel-card,
-html body .footer-hero-card,
+<style id="exp3-layer">
+/* ═══ ESPERIMENTO 3 · entrata dei lavori "a volo" + modulo contatti ═══ */
+/* le card dei lavori le anima lo script qui sotto, non più l'effetto precedente */
+html.anim-on .work-card[data-anim]{opacity:1;animation:none!important}
+html.fly-on .work-card.fly-wait{opacity:0}
+.work-card.fly-now{position:relative;z-index:60;will-change:transform,opacity;pointer-events:none}
+@media (prefers-reduced-motion:reduce){ html.fly-on .work-card.fly-wait{opacity:1} }
 
-html body .about-langs,
-html body .exp-item,
-html body .hero-stats{
-  background:
-    radial-gradient(420px circle at var(--mx,28%) var(--my,0%),rgba(255,255,255,.14),transparent 55%),
-    linear-gradient(140deg,rgba(255,255,255,.12),rgba(255,255,255,.03) 42%,rgba(138,100,255,.08)) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(170%);
-  backdrop-filter:blur(18px) saturate(170%);
-  border:1px solid rgba(255,255,255,.16) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.3),
-    inset 1px 0 0 rgba(255,255,255,.06),
-    inset 0 -1px 0 rgba(255,255,255,.05),
-    inset 0 -30px 60px -40px rgba(138,100,255,.4),
-    0 30px 60px -30px rgba(0,0,0,.75) !important;
-}
-html body .work-card:hover, html body .reel-card:hover, html body .sk-row:hover{
-  border-color:rgba(214,245,58,.45) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.38),
-    inset 0 -30px 60px -36px rgba(138,100,255,.6),
-    0 0 0 1px rgba(214,245,58,.15),
-    0 30px 70px -26px rgba(106,53,255,.7) !important;
-}
-/* pulsanti in vetro */
-html body .footer-cta-btn, html body .hero-cta-2, html body .work-card .view-btn, html body .nav-lang-btn{
-  background:linear-gradient(140deg,rgba(255,255,255,.16),rgba(255,255,255,.04)) !important;
-  -webkit-backdrop-filter:blur(14px) saturate(160%);
-  backdrop-filter:blur(14px) saturate(160%);
-  border:1px solid rgba(255,255,255,.2) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 30px -14px rgba(0,0,0,.7) !important;
-}
-html body .footer-cta-btn:hover, html body .hero-cta-2:hover, html body .work-card:hover .view-btn{
-  border-color:rgba(214,245,58,.6) !important;
-  background:linear-gradient(140deg,rgba(214,245,58,.22),rgba(255,255,255,.05)) !important;
-}
-/* riflesso che attraversa la card dei lavori quando entra */
-html body .work-card{position:relative}
-html body .work-card::after{
-  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;
-  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 48%,rgba(255,255,255,.05) 55%,transparent 65%);
-  background-size:260% 100%;background-position:130% 0;opacity:0;
-}
-html.anim-on .work-card[data-anim].in::after{animation:glassSweep 1.5s cubic-bezier(.2,.8,.2,1) calc(var(--d,0s) + .45s) both}
-@keyframes glassSweep{0%{opacity:0;background-position:130% 0}25%{opacity:1}100%{opacity:0;background-position:-40% 0}}
-
-/* entrata dei lavori: salgono in 3D dal basso, a cascata */
-[data-anim="clip"]{--dur:1.25s}
-@keyframes animClip{
-  from{opacity:0;transform:perspective(1200px) translate3d(0,110px,0) rotateX(32deg) scale(.86)}
-  55%{opacity:1}
-  to{opacity:1}
-}
-@media (prefers-reduced-motion:reduce){ html body .work-card::after{display:none} }
+/* modulo contatti */
+.cf{max-width:620px;margin:30px auto 0;padding:clamp(18px,3vw,28px);text-align:left;border-radius:28px;
+  border:1px solid rgba(255,255,255,.12);
+  background:radial-gradient(120% 120% at 0% 0%,rgba(106,53,255,.22),transparent 60%),rgba(11,10,18,.55)}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cf label{display:block;margin:0 0 14px;font:800 .66rem 'Montserrat',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.cf label span{display:block;margin-bottom:8px}
+.cf input,.cf textarea{display:block;width:100%;box-sizing:border-box;padding:13px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05);color:#fff;font:500 16px/1.4 'Montserrat',sans-serif;letter-spacing:0;text-transform:none;outline:none;
+  transition:border-color .25s,box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
+.cf textarea{min-height:130px;resize:vertical}
+.cf input::placeholder,.cf textarea::placeholder{color:rgba(255,255,255,.35)}
+.cf input:focus,.cf textarea:focus{border-color:#8a64ff;background:rgba(106,53,255,.1);box-shadow:0 0 0 3px rgba(106,53,255,.3)}
+.cf .bad{border-color:#ff4fa0!important;box-shadow:0 0 0 3px rgba(255,79,160,.25)!important}
+.cf-foot{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:6px}
+.cf-send{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border:0;border-radius:999px;cursor:pointer;
+  background:#d6f53a;color:#0b0a12;font:800 .82rem 'Montserrat',sans-serif;letter-spacing:.12em;text-transform:uppercase;
+  box-shadow:0 12px 34px -12px rgba(214,245,58,.7);transition:transform .25s,box-shadow .25s}
+.cf-send:hover{transform:translateY(-3px);box-shadow:0 18px 40px -12px rgba(214,245,58,.9)}
+.cf-note{margin:0;font:500 .78rem/1.5 'Montserrat',sans-serif;color:rgba(255,255,255,.55);text-align:center}
+.cf-note a{color:#8a64ff;text-decoration:underline}
+.cf-msg{margin:0;font:700 .8rem 'Montserrat',sans-serif;color:#ff4fa0;min-height:1em;text-align:center}
+.cf-msg.ok{color:#d6f53a}
+@media (max-width:560px){ .cf-row{grid-template-columns:1fr;gap:0} .cf{border-radius:22px} .cf-send{width:100%;justify-content:center} }
 </style>
 
 <meta name="robots" content="noindex">
@@ -3635,6 +3605,18 @@ html.anim-on .work-card[data-anim].in::after{animation:glassSweep 1.5s cubic-bez
       <span data-i18n="footer_headline">Hai un progetto in mente?</span> <span style="color:var(--purple);" data-i18n="footer_headline_accent">Parliamone.</span><br>
       <span style="font-weight:300; font-size:0.75em; color:#888;" data-i18n="footer_sub">Raccontami la tua idea e costruiamo insieme qualcosa di straordinario!</span>
     </p>
+    <form class="cf" id="contactForm" novalidate>
+      <div class="cf-row">
+        <label><span data-i18n="cf_name">Il tuo nome</span><input type="text" name="nome" autocomplete="name" placeholder="Mario Rossi" data-ph="cf_name_ph" required></label>
+        <label><span data-i18n="cf_mail">La tua email</span><input type="email" name="email" autocomplete="email" placeholder="tuaemail@esempio.com" data-ph="cf_mail_ph"></label>
+      </div>
+      <label><span data-i18n="cf_text">Messaggio</span><textarea name="messaggio" placeholder="Raccontami la tua attività e cosa ti serve: logo, social, sito…" data-ph="cf_text_ph" required></textarea></label>
+      <div class="cf-foot">
+        <p class="cf-msg" id="cfMsg" role="status" aria-live="polite"></p>
+        <button type="submit" class="cf-send"><span data-i18n="cf_send">Invia messaggio</span> <span aria-hidden="true">→</span></button>
+        <p class="cf-note"><span data-i18n="cf_note">Si apre Gmail con il messaggio già scritto: ti basta premere Invia.</span> <a href="#" id="cfAlt" data-i18n="cf_alt">Non usi Gmail? Apri la tua app di posta</a></p>
+      </div>
+    </form>
     <div class="footer-cta-grid">
     <a href="https://wa.me/393202920002?text=Ciao%20Matteo%2C%20ho%20visto%20il%20tuo%20portfolio%20e%20vorrei%20parlarti%20di%20un%20progetto." target="_blank" rel="noopener" class="footer-cta-btn btn-primary btn-wa" data-i18n-btn="footer_wa">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.02c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.46A11.3 11.3 0 0 0 12.05.72C5.8.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.3l5.7-1.5a11.3 11.3 0 0 0 5.74 1.47h.01c6.26 0 11.35-5.09 11.35-11.35 0-3.03-1.18-5.88-3.32-8.02z"/></svg>
@@ -5027,16 +5009,87 @@ function toggleLang() {
   })();
 </script>
 <script>
-// Liquid Glass: il riflesso segue il cursore (solo con il mouse)
+/* ═══ ESPERIMENTO 3 ═══ */
 (function () {
-  if (!window.matchMedia || !matchMedia('(hover: hover)').matches) return;
-  var sel = 'nav, .work-card, .sk-row, .sk-card, .reel-card, .footer-hero-card, .about-langs, .exp-item, .hero-stats';
-  document.addEventListener('pointermove', function (e) {
-    var el = e.target.closest && e.target.closest(sel); if (!el) return;
-    var r = el.getBoundingClientRect();
-    el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-    el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-  }, { passive: true });
+  /* ── modulo contatti → Gmail ── */
+  var TO = 'matteo.bonfitto.grafico@gmail.com';
+  try {
+    Object.assign(TRANSLATIONS.it, { cf_name: 'Il tuo nome', cf_mail: 'La tua email', cf_text: 'Messaggio', cf_send: 'Invia messaggio',
+      cf_note: 'Si apre Gmail con il messaggio già scritto: ti basta premere Invia.', cf_alt: 'Non usi Gmail? Apri la tua app di posta',
+      cf_name_ph: 'Mario Rossi', cf_mail_ph: 'tuaemail@esempio.com', cf_text_ph: 'Raccontami la tua attività e cosa ti serve: logo, social, sito…',
+      cf_err: 'Scrivi il tuo nome e il messaggio.', cf_err_mail: "Controlla l'indirizzo email.", cf_ok: 'Gmail si è aperto: premi Invia per mandarmi il messaggio.', cf_subj: 'Nuovo progetto', cf_reply: 'Rispondimi a' });
+    Object.assign(TRANSLATIONS.en, { cf_name: 'Your name', cf_mail: 'Your email', cf_text: 'Message', cf_send: 'Send message',
+      cf_note: 'Gmail opens with your message already written: just press Send.', cf_alt: "Don't use Gmail? Open your mail app",
+      cf_name_ph: 'John Smith', cf_mail_ph: 'youremail@example.com', cf_text_ph: 'Tell me about your business and what you need: logo, social, website…',
+      cf_err: 'Please write your name and message.', cf_err_mail: 'Please check the email address.', cf_ok: 'Gmail has opened: press Send to deliver your message.', cf_subj: 'New project', cf_reply: 'Reply to' });
+  } catch (e) {}
+  function T(k) { try { return TRANSLATIONS[currentLang][k] || TRANSLATIONS.it[k]; } catch (e) { return k; } }
+  var form = document.getElementById('contactForm');
+  if (form) {
+    var msg = document.getElementById('cfMsg');
+    var _set = window.setLang;
+    if (typeof _set === 'function') window.setLang = function (l) { _set(l); form.querySelectorAll('[data-ph]').forEach(function (el) { el.placeholder = T(el.dataset.ph); }); msg.textContent = ''; };
+    function build() {
+      var f = form.elements, n = f.nome.value.trim(), m = f.email.value.trim(), t = f.messaggio.value.trim();
+      [f.nome, f.email, f.messaggio].forEach(function (el) { el.classList.remove('bad'); });
+      msg.className = 'cf-msg';
+      if (!n || !t) { if (!n) f.nome.classList.add('bad'); if (!t) f.messaggio.classList.add('bad'); msg.textContent = T('cf_err'); (n ? f.messaggio : f.nome).focus(); return null; }
+      if (m && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { f.email.classList.add('bad'); msg.textContent = T('cf_err_mail'); f.email.focus(); return null; }
+      return { su: T('cf_subj') + ' — ' + n, body: t + '\n\n— ' + n + (m ? '\n' + T('cf_reply') + ': ' + m : '') };
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); var d = build(); if (!d) return;
+      window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(TO) + '&su=' + encodeURIComponent(d.su) + '&body=' + encodeURIComponent(d.body), '_blank', 'noopener');
+      msg.className = 'cf-msg ok'; msg.textContent = T('cf_ok');
+    });
+    document.getElementById('cfAlt').addEventListener('click', function (e) {
+      e.preventDefault(); var d = build(); if (!d) return;
+      location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(d.su) + '&body=' + encodeURIComponent(d.body);
+    });
+    form.addEventListener('input', function (e) { e.target.classList.remove('bad'); });
+  }
+
+  /* ── entrata dei lavori: fila di miniature lontane → in primo piano → al proprio posto ── */
+  var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = [].slice.call(document.querySelectorAll('.works .work-card'));
+  if (RM || !cards.length || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
+  document.documentElement.classList.add('fly-on');
+  cards.forEach(function (c) { c.classList.add('fly-wait'); });
+  function fly(card, k, n) {
+    var r = card.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // 1) in fila, piccole e lontane
+    var rowX = vw * (0.5 + (k - (n - 1) / 2) * Math.min(0.13, 0.7 / n)) - cx;
+    var rowY = Math.min(vh * 0.32, Math.max(vh * 0.2, r.top)) - cy + r.height * 0.07;
+    // 2) in primo piano al centro
+    var big = Math.min(1.35, (vw * 0.82) / r.width, (vh * 0.8) / r.height);
+    var midX = vw / 2 - cx, midY = vh / 2 - cy;
+    var P = 'perspective(1400px) ';
+    card.classList.remove('fly-wait'); card.classList.add('fly-now');
+    var hold = 350 + k * 260, T = hold + 1250;
+    var row = P + 'translate3d(' + rowX + 'px,' + rowY + 'px,0) rotateY(55deg) scale(.13)';
+    var a = card.animate([
+      { opacity: 0, transform: row, offset: 0 },
+      { opacity: 1, transform: row, offset: 250 / T },
+      { opacity: 1, transform: row, offset: hold / T, easing: 'cubic-bezier(.5,0,.2,1)' },
+      { opacity: 1, transform: P + 'translate3d(' + midX + 'px,' + midY + 'px,0) rotateY(-10deg) scale(' + big + ')', offset: (hold + 600) / T, easing: 'cubic-bezier(.5,0,.15,1)' },
+      { opacity: 1, transform: P + 'translate3d(0,0,0) rotateY(0deg) scale(1)', offset: 1 }
+    ], { duration: T, fill: 'backwards', easing: 'linear' });
+    setTimeout(function () { card.style.zIndex = 70 + k; }, hold); 
+    a.onfinish = a.oncancel = function () { card.classList.remove('fly-now'); card.style.zIndex = ''; };
+  }
+  var queue = [], t = null;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); queue.push(e.target); } });
+    clearTimeout(t); t = setTimeout(function () {
+      var q = queue.sort(function (a, b) { var A = a.getBoundingClientRect(), B = b.getBoundingClientRect(); return (A.top - B.top) || (A.left - B.left); }); queue = [];
+      q.forEach(function (c, i) { fly(c, i, q.length); });
+    }, 60);
+  }, { threshold: 0.12 });
+  function start() { cards.forEach(function (c) { io.observe(c); }); }
+  if (document.body.classList.contains('gated')) {
+    var w = setInterval(function () { if (!document.body.classList.contains('gated')) { clearInterval(w); setTimeout(start, 600); } }, 150);
+  } else start();
 })();
 </script>
 
